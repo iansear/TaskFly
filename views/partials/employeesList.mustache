@@ -1,0 +1,13 @@
+<div>
+    <ul>
+        {{#employees}}
+            <li>
+                <h4>{{alias}}</h4>
+                <a href="/management/employeeinfo/{{id}}"><button>Info</button></a>
+            </li>
+        {{/employees}}
+    </ul>
+    {{^employees}}
+        <p>No Employees</p>
+    {{/employees}}
+</div>

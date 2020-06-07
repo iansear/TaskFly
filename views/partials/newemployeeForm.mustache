@@ -1,0 +1,18 @@
+<div>
+    <form method="POST" action="/management/newemployee">
+        <input name="username" type="text" placeholder="Username" required>
+        <input name="password" type="text" placeholder="Password" required>
+        <input name="alias" type="text" placeholder="Alias">
+        <input name="email" type="email" placeholder="Email" required>
+        <input name="phone" type="tel" placeholder="Phone Number" required>
+        <input name="address" type="text" placeholder="Mailing Address">
+        <input name="isdispatcher" id="dispatch" type="checkbox" value="true">
+        <label for="dispatch">Dispatcher</label>
+        <input name="isorders" id="orders" type="checkbox" value="true">
+        <label for="orders">Order Taker</label>
+        <input name="isdelivery" id="delivery" type="checkbox" value="true">
+        <label for="delivery">Delivery</label>
+        <input name="companyid" type="hidden" value="{{company.id}}">
+        <button>Hire</button>
+    </form>
+</div>

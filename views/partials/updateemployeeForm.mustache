@@ -1,0 +1,111 @@
+<div>
+    <form method="POST" action="/management/updateemployee">
+        <table>
+            <tr>
+                <th>User Name</th>
+                <td>{{username}}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>Alias</th>
+                <td>{{alias}}</td>
+                <td>
+                    <input name="alias" type="text" value="{{alias}}">
+                </td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{email}}</td>
+                <td>
+                    <input name="email" type="text" value="{{email}}">
+                </td>
+            </tr>
+            <tr>
+                <th>Phone</th>
+                <td>{{phone}}</td>
+                <td>
+                    <input name="phone" type="tel" value="{{phone}}">
+                </td>
+            </tr>
+            <tr>
+                <th>Address</th>
+                <td>{{address}}</td>
+                <td>
+                    <input name="address" type="text" value="{{address}}">
+                </td>
+            </tr>
+            <tr>
+                <th>Dispatcher</th>
+                <td>
+                    {{#isdispatcher}}
+                        <p>Yes</p>
+                    {{/isdispatcher}}
+                    {{^isdispatcher}}
+                        <p>No</p>
+                    {{/isdispatcher}}
+                </td>
+                <td>
+                    {{#isdispatcher}}
+                        <input name="isdispatcher" type="checkbox" checked>
+                    {{/isdispatcher}}
+                    {{^isdispatcher}}
+                        <input name="isdispatcher" type="checkbox">
+                    {{/isdispatcher}}
+                </td>
+            </tr>
+            <tr>
+                <th>Order Taker</th>
+                <td>
+                    {{#isorders}}
+                        <p>Yes</p>
+                    {{/isorders}}
+                    {{^isorders}}
+                        <p>No</p>
+                    {{/isorders}}
+                </td>
+                <td>
+                    {{#isorders}}
+                        <input name="isorders" type="checkbox" checked>
+                    {{/isorders}}
+                    {{^isorders}}
+                        <input name="isorders" type="checkbox">
+                    {{/isorders}}
+                </td>
+            </tr>
+            <tr>
+                <th>Delivery</th>
+                <td>
+                    {{#isdelivery}}
+                        <p>Yes</p>
+                    {{/isdelivery}}
+                    {{^isdelivery}}
+                        <p>No</p>
+                    {{/isdelivery}}
+                </td>
+                <td>
+                    {{#isdelivery}}
+                        <input name="isdelivery" type="checkbox" checked>
+                    {{/isdelivery}}
+                    {{^isdelivery}}
+                        <input name="isdelivery" type="checkbox">
+                    {{/isdelivery}}
+                </td>
+            </tr>
+            <tr>
+                <th></th>
+                <td></td>
+                <td>
+                    <button>Update</button>
+                </td>
+            </tr>
+        </table>
+        <input name="id" type="hidden" value="{{id}}">
+        <input name="usercompanyid" type="hidden" value="{{usercompanyid}}">
+    </form>
+    <form method="POST" action="/management/deactivateemployee">
+        <h3>Remove Employee</h3>
+        <input name="isremove" type="checkbox">
+        <input name="usercompanyid" type="hidden" value="{{usercompanyid}}">
+        <button>Remove</button>
+    </form>
+</div>

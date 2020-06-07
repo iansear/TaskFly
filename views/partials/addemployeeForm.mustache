@@ -1,0 +1,13 @@
+<div>
+    <form method="POST" action="/management/addemployee">
+        <input name="username" type="text" placeholder="Username" required>
+        <input name="isdispatcher" id="dispatch" type="checkbox" value="true">
+        <label for="dispatch">Dispatcher</label>
+        <input name="isorders" id="orders" type="checkbox" value="true">
+        <label for="orders">Order Taker</label>
+        <input name="isdelivery" id="delivery" type="checkbox" value="true">
+        <label for="delivery">Delivery</label>
+        <input name="companyid" type="hidden" value="{{company.id}}">
+        <button>Hire</button>
+    </form>
+</div>

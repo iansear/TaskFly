@@ -1,0 +1,17 @@
+<div>
+    {{#companies}}
+        <h2>{{name}}</h2>
+        {{#isdispatcher}}
+            <p>Dispatch Board</p>
+            <a href="/management/{{id}}"><button>Employee Management</button></a>
+        {{/isdispatcher}}
+        {{#isorders}}
+            <a href="/order/placeorder/{{id}}"><button>Place Order</button></a>
+            <p>Order Management</p>
+        {{/isorders}}
+        {{#isdelivery}}
+            <p>Manifest</p>
+            <p>History</p>
+        {{/isdelivery}}
+    {{/companies}}
+</div>
