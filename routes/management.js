@@ -8,8 +8,26 @@ const deactivateUser = require('../database/deactivateuser')
 const addUser = require('../database/adduser')
 const router = express.Router()
 
-let companyid = null
+let company = {}
 let employees = []
+
+function getDetails(employee) {
+    const usercompany = employee.companies.find(usercompany => usercompany.id == company.id)
+    const details = {
+        id: employee.id,
+        username: employee.username,
+        alias: employee.alias,
+        email: employee.email,
+        phone: employee.phone,
+        address: employee.address,
+        companyid: usercompany.id,
+        usercompanyid: usercompany.usercompanies.id,
+        isdispatcher: usercompany.usercompanies.isdispatcher,
+        isorders: usercompany.usercompanies.isorders,
+        isdelivery: usercompany.usercompanies.isdelivery
+    }
+    return details
+}
 
 router.post('/newemployee', async (req, res) => {
     const hashword = await bcrypt.hash(req.body.password, 13)
@@ -27,8 +45,12 @@ router.post('/newemployee', async (req, res) => {
         isorders: req.body.isorders ? true : false,
         isdispatcher: req.body.isdispatcher ? true : false
     }
-    await createUser(user, permissions)
-    res.redirect(`/management/${companyid}`)
+    try {
+        await createUser(user, permissions)
+    } catch(error) {
+        res.render('management', {company: company, employees: employees, newmessage: 'Username already exists.'})
+    }
+    res.redirect(`/management/${company.id}`)
 })
 
 router.post('/addemployee', async (req, res) => {
@@ -43,8 +65,10 @@ router.post('/addemployee', async (req, res) => {
             isdispatcher: req.body.isdispatcher ? true : false
         }
         await addUser(permissions)
+        res.redirect(`/management/${company.id}`)
+    } else {
+        res.render('management', {company: company, employees: employees, addmessage: 'No user found.'})
     }
-    res.redirect(`/management/${companyid}`)
 })
 
 router.post('/updateemployee', async (req, res) => {
@@ -62,7 +86,7 @@ router.post('/updateemployee', async (req, res) => {
         isdispatcher: req.body.isdispatcher ? true : false
     }
     await updateUser(userid, user, usercompanyid, permissions)
-    res.redirect(`/management/${companyid}`)
+    res.redirect(`/management/${company.id}`)
 })
 
 router.post('/deactivateemployee', async (req, res) => {
@@ -71,40 +95,25 @@ router.post('/deactivateemployee', async (req, res) => {
     if(isremove) {
         await deactivateUser(usercompanyid)
     }
-    res.redirect(`/management/${companyid}`)
+    res.redirect(`/management/${company.id}`)
 })
 
 router.get('/employeeinfo/:userid', (req, res) => {
-    const userid = req.params.userid
-    const employee = employees.find((employee) => employee.id == userid)
+    const employee = employees.find(employee => employee.id == req.params.userid)
     if(employee) {
-        const company = employee.companies.find((company) => company.id == companyid)
-        const details = {
-            id: employee.id,
-            username: employee.username,
-            alias: employee.alias,
-            email: employee.email,
-            phone: employee.phone,
-            address: employee.address,
-            companyid: company.id,
-            usercompanyid: company.usercompanies.id,
-            isdispatcher: company.usercompanies.isdispatcher,
-            isorders: company.usercompanies.isorders,
-            isdelivery: company.usercompanies.isdelivery
-        }
-        res.render('employeeinfo', details)
+        res.render('employeeinfo', employee)
     } else {
         res.redirect('/home')
     }
 })
 
 router.get('/:companyid', async (req, res) => {
-    companyid = req.params.companyid
-    const company = req.session.companies.find((company) => company.id == companyid)
+    company = req.session.companies.find(company => company.id == req.params.companyid)
     if(company) {
         if(company.isdispatcher) {
-            employees = await getEmployees(companyid)
-            employees = employees.filter((employee) => employee.username != req.session.user.username)
+            employees = await getEmployees(company.id)
+            employees = employees.filter(employee => employee.username != req.session.user.username)
+            employees = employees.map(employee => getDetails(employee))
             res.render('management', {company: company, employees: employees})
         } else {
             res.redirect('/home')

@@ -1,0 +1,38 @@
+<div>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Alias</th>
+            <th>Dispatch</th>
+            <th>Order Taker</th>
+            <th>Delivery</th>
+        </tr>
+        {{#employees}}
+            <tr>
+                <td><a href="/management/employeeinfo/{{id}}"><button>{{id}}</button></a></td>
+                <td>{{alias}}</td>
+                {{#isdispatcher}}
+                    <td>Yes</td>
+                {{/isdispatcher}}
+                {{^isdispatcher}}
+                    <td>No</td>
+                {{/isdispatcher}}
+                {{#isorders}}
+                    <td>Yes</td>
+                {{/isorders}}
+                {{^isorders}}
+                    <td>No</td>
+                {{/isorders}}
+                {{#isdelivery}}
+                    <td>Yes</td>
+                {{/isdelivery}}
+                {{^isdelivery}}
+                    <td>No</td>
+                {{/isdelivery}}
+            </tr>
+        {{/employees}}
+    </table>
+    {{^employees}}
+        <p>No Employees</p>
+    {{/employees}}
+</div>

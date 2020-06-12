@@ -1,17 +1,16 @@
 <div>
+    {{#showmanifest}}
+        <a href="/order/delivery/manifest"><button>My Manifest</button></a>
+        <p>History</p>
+    {{/showmanifest}}
     {{#companies}}
         <h2>{{name}}</h2>
         {{#isdispatcher}}
-            <p>Dispatch Board</p>
+            <a href="/order/dispatch/{{id}}"><button>Dispatch Board</button></a>
             <a href="/management/{{id}}"><button>Employee Management</button></a>
         {{/isdispatcher}}
         {{#isorders}}
-            <a href="/order/placeorder/{{id}}"><button>Place Order</button></a>
-            <p>Order Management</p>
+            <a href="/order/orders/{{id}}"><button>Order Management</button></a>
         {{/isorders}}
-        {{#isdelivery}}
-            <p>Manifest</p>
-            <p>History</p>
-        {{/isdelivery}}
     {{/companies}}
 </div>

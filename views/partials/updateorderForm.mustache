@@ -1,0 +1,133 @@
+<div>
+    <table>
+        <form method="POST" action="/order/updateorder">
+            <tr>
+                <th>Order ID</th>
+                <td>{{id}}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{description}}</td>
+                <td>
+                    {{#role.dispatch}}
+                        <textarea name="description" rows="4" cols="50">{{description}}</textarea>
+                    {{/role.dispatch}}
+                    {{#role.order}}
+                        <textarea name="description" rows="4" cols="50">{{description}}</textarea>
+                    {{/role.order}}
+                </td>
+            </tr>
+            <tr>
+                <th>Instructions</th>
+                <td>{{instructions}}</td>
+                <td>
+                    {{#role.dispatch}}
+                        <textarea name="instructions" rows="4" cols="50">{{instructions}}</textarea>
+                    {{/role.dispatch}}
+                    {{#role.order}}
+                        <textarea name="instructions" rows="4" cols="50">{{instructions}}</textarea>
+                    {{/role.order}}
+                </td>
+            </tr>
+            <tr>
+                <th>Notes</th>
+                <td>{{notes}}</td>
+                <td>
+                    {{#role.dispatch}}
+                        <textarea name="notes" rows="4" cols="50">{{notes}}</textarea>
+                    {{/role.dispatch}}
+                    {{#role.delivery}}
+                        <textarea name="notes" rows="4" cols="50">{{notes}}</textarea>
+                    {{/role.delivery}}
+                </td>
+            </tr>
+
+            <tr>
+                <th>POD</th>
+                <td>{{pod}}</td>
+                <td>
+                    {{#role.dispatch}}
+                        <input name="pod" type="text" value="{{pod}}">
+                    {{/role.dispatch}}
+                </td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{status}}</td>
+                <td></td>
+            </tr>
+            <tr>
+                {{#role.delivery}}
+                    <th></th>
+                    <td></td>
+                {{/role.delivery}}
+                {{^role.delivery}}
+                    <th>Assigned</th>
+                    <td>{{assigned}}</td>
+                {{/role.delivery}}
+                <td><button>UPDATE</button></td>
+            </tr>    
+        <input name="orderid" type="hidden" value="{{id}}">
+        </form>
+
+    {{#role.delivery}}
+        <form method="POST" action="/order/updateorderstatus">
+            <tr>
+                <th>POD</th>
+                <td>
+                    {{#deliveryvalues.pod}}
+                        <input name="pod" type="text" value="{{pod}}" required>
+                    {{/deliveryvalues.pod}}
+                </td>
+                <td>
+                    <button>{{deliveryvalues.button}}</button>
+                </td>
+            </tr>
+            <input name="status" type="hidden" value="{{status}}">
+            <input name="orderid" type="hidden" value="{{id}}">
+        </form>
+    {{/role.delivery}}
+    
+    {{#role.dispatch}}
+        <form method="POST" action="/order/assignorder">
+            <tr>
+                <th>Assign Courier</th>
+                <td>
+                    <select name="userid">
+                        {{#roster}}
+                            <option value="{{id}}">{{id}} - {{alias}}</option>
+                        {{/roster}}
+                    </select>
+                </td>
+                <td>
+                    <button>Assign</button>
+                </td>
+            </tr>
+            <input name="orderid" type="hidden" value="{{id}}">
+        </form>
+
+        <form method="POST" action="/order/unassignorder">
+            <tr>
+                <th>Unassign Courier</th>
+                <td>
+                    <button>Unassign</button>
+                </td>
+                <td></td>
+            </tr>
+            <input name="orderid" type="hidden" value="{{id}}">
+        </form>
+
+        <form method="POST" action="/order/cancelorder">
+            <tr>
+                <th>Cancel Order</th>
+                <td>
+                    <button>Set Cancel</button>
+                </td>
+                <td></td>
+            </tr>
+            <input name="orderid" type="hidden" value="{{id}}">
+        </form>
+    {{/role.dispatch}}
+    </table>
+</div>

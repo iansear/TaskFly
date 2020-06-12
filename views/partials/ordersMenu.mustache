@@ -1,0 +1,33 @@
+<div>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Status</th>
+            <th>Description</th>
+            {{#role.delivery}}
+                <th>Company</th>
+            {{/role.delivery}}
+            {{^role.delivery}}
+                <th>Assigned</th>
+                <th>POD</th>
+            {{/role.delivery}}
+        </tr>
+        {{#orders}}
+            <tr>
+                <td><a href="/order/orderinfo/{{id}}"><button>{{id}}</button></a></td>
+                <td>{{status}}</td>
+                <td>{{description}}</td>
+                {{#role.delivery}}
+                    <td>{{company.name}}</td>
+                {{/role.delivery}}
+                {{^role.delivery}}
+                    <td>{{user.alias}}</td>
+                    <td>{{pod}}</td>
+                {{/role.delivery}}
+            </tr>
+        {{/orders}}
+    </table>
+    {{^orders}}
+        <p>No Orders</p>
+    {{/orders}}
+</div>

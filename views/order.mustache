@@ -1,0 +1,11 @@
+<html>
+<body>
+    <a href="/home"><button>Home</button></a>
+    {{#role.order}}
+        <h1>{{company.name}} Place order</h1>
+        {{>neworderForm}}
+    {{/role.order}}
+    <h3>Current Orders</h3>
+    {{>ordersMenu}}
+</body>
+</html>
