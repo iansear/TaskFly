@@ -58,15 +58,21 @@
                 <td></td>
             </tr>
             <tr>
+                {{#role.dispatch}}
+                    <th>Assigned</th>
+                    <td>{{assigned}}</td>
+                    <td><button>UPDATE</button></td>
+                {{/role.dispatch}}
+                {{#role.order}}
+                    <th>Assigned</th>
+                    <td>{{assigned}}</td>
+                    <td><button>UPDATE</button></td>
+                {{/role.order}}
                 {{#role.delivery}}
                     <th></th>
                     <td></td>
+                    <td><button>UPDATE</button></td>
                 {{/role.delivery}}
-                {{^role.delivery}}
-                    <th>Assigned</th>
-                    <td>{{assigned}}</td>
-                {{/role.delivery}}
-                <td><button>UPDATE</button></td>
             </tr>    
         <input name="orderid" type="hidden" value="{{id}}">
         </form>

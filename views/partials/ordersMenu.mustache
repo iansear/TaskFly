@@ -4,26 +4,29 @@
             <th>ID</th>
             <th>Status</th>
             <th>Description</th>
-            {{#role.delivery}}
-                <th>Company</th>
-            {{/role.delivery}}
-            {{^role.delivery}}
+            {{#role.dispatch}}
                 <th>Assigned</th>
-                <th>POD</th>
-            {{/role.delivery}}
+            {{/role.dispatch}}
+            {{#role.order}}
+                <th>Assigned</th>
+            {{/role.order}}
+            <th>POD</th>
+            <th>Company</th>
         </tr>
         {{#orders}}
             <tr>
                 <td><a href="/order/orderinfo/{{id}}"><button>{{id}}</button></a></td>
                 <td>{{status}}</td>
                 <td>{{description}}</td>
-                {{#role.delivery}}
-                    <td>{{company.name}}</td>
-                {{/role.delivery}}
-                {{^role.delivery}}
+                {{#role.dispatch}}
                     <td>{{user.alias}}</td>
-                    <td>{{pod}}</td>
-                {{/role.delivery}}
+                {{/role.dispatch}}
+                {{#role.order}}
+                    <td>{{user.alias}}</td>
+                {{/role.order}}
+                <td>{{pod}}</td>
+                <td>{{company.name}}</td>
+
             </tr>
         {{/orders}}
     </table>

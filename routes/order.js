@@ -1,6 +1,7 @@
 const express = require('express')
 const getOrders = require('../database/getorders')
 const getManifest = require('../database/getmanifest')
+const getHistory = require('../database/gethistory')
 const getRoster = require('../database/getroster')
 const createOrder = require('../database/createorder')
 const updateOrder = require('../database/updateorder')
@@ -121,11 +122,24 @@ router.get('/orderinfo/:orderid', (req, res) => {
 
 router.get('/delivery/manifest', async (req, res) => {
     orders = await getManifest(req.session.user.id)
+    company.id = 'manifest'
     role = {
         role: 'delivery',
         dispatch: false,
         order: false,
         delivery: true
+    }
+    res.render('order', {company: company, orders: orders, role: role})
+})
+
+router.get('/delivery/history', async (req, res) => {
+    orders = await getHistory(req.session.user.id)
+    company.id = 'history'
+    role = {
+        role: 'delivery',
+        dispatch: false,
+        order: false,
+        delivery: false
     }
     res.render('order', {company: company, orders: orders, role: role})
 })

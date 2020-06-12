@@ -1,9 +1,11 @@
 const models = require('../models')
+const {Op} = require('sequelize')
 
 async function getOrders(companyid) {
     const orders = await models.Order.findAll({
         where: {
-            companyid: companyid
+            companyid: companyid,
+            [Op.not]: [{status: 'DELIVERED'}]
         },
         include: [
             {
