@@ -10,9 +10,9 @@
     {{#role.delivery}}
         <a href="/order/{{role.role}}/manifest"><button>Back</button></a>
     {{/role.delivery}}
-    {{^role.delivery}}
+    {{#role.history}}
         <a href="/order/{{role.role}}/history"><button>Back</button></a>
-    {{/role.delivery}}
+    {{/role.history}}
     {{>updateorderForm}}
 </body>
 </html>

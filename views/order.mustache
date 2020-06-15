@@ -2,11 +2,22 @@
 <body>
     <a href="/home"><button>Home</button></a>
 
+    {{#role.dispatch}}
+        <a href="/order/{{role.role}}/{{company.id}}"><button>Refresh</button></a>
+    {{/role.dispatch}}
+    {{#role.order}}
+        <a href="/order/{{role.role}}/{{company.id}}"><button>Refresh</button></a>
+    {{/role.order}}
+    {{#role.delivery}}
+        <a href="/order/{{role.role}}/manifest"><button>Refresh</button></a>
+    {{/role.delivery}}
+
     {{#role.order}}
 
         <h1>{{company.name}} Place order</h1>
         {{>neworderForm}}
-        <h3>Current Orders</h3>
+        <h4>Current Orders</h4>
+        {{>orderidSearchForm}}
         {{>ordersMenuHead}}
         {{#orders}}
             {{>ordersMenuBody}}
@@ -21,6 +32,7 @@
     {{#role.dispatch}}
 
         <h1>{{company.name}} Job Board</h1>
+        {{>orderidSearchForm}}
         <h4>Unassigned Orders</h4>
         {{>ordersMenuHead}}
         {{#unassigned}}
@@ -45,7 +57,7 @@
 
     {{#role.delivery}}
 
-        <h3>Manifest</h3>
+        <h4>Manifest</h4>
         {{>ordersMenuHead}}
         {{#orders}}
             {{>ordersMenuBody}}
@@ -59,7 +71,7 @@
 
     {{#role.history}}
 
-        <h3>Delivery History</h3>
+        <h4>Delivery History</h4>
         {{>ordersMenuHead}}
         {{#orders}}
             {{>ordersMenuBody}}

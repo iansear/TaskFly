@@ -11,6 +11,8 @@ let company = {}
 let role = {}  
 let roster = []
 let orders = []
+let assigned = []
+let unassigned = []
 
 router.post('/neworder', async (req, res) => {
     const order = {
@@ -55,12 +57,16 @@ router.post('/updateorderstatus', async (req, res) => {
 
 router.post('/assignorder', async (req, res) => {
     const orderid = req.body.orderid
-    const order = {
-        userid: req.body.userid,
-        status: 'PENDING'
+    if(req.body.userid != 'NONE') {
+        const order = {
+            userid: req.body.userid,
+            status: 'PENDING'
+        }
+        await updateOrder(orderid, order)
+        res.redirect(`/order/${role.role}/${company.id}`)
+    } else {
+        res.redirect(`/order/orderinfo/${orderid}`)
     }
-    await updateOrder(orderid, order)
-    res.redirect(`/order/${role.role}/${company.id}`)
 })
 
 router.post('/unassignorder', async (req, res) => {
@@ -81,6 +87,10 @@ router.post('/cancelorder', async (req, res) => {
     }
     await updateOrder(orderid, order)
     res.redirect(`/order/${role.role}/${company.id}`)
+})
+
+router.post('/orderinfo', (req, res) => {
+    res.redirect(`/order/orderinfo/${req.body.orderid}`)
 })
 
 router.get('/orderinfo/:orderid', (req, res) => {
@@ -116,7 +126,7 @@ router.get('/orderinfo/:orderid', (req, res) => {
         }
         res.render('orderinfo', details)
     } else {
-        redirect('/home')
+        res.render('order', {company: company, orders: orders, assigned: assigned, unassigned: unassigned, role: role, roster: roster, searchmessage: 'No order found.'})
     }
 })
 
@@ -151,9 +161,17 @@ router.get('/:role/:companyid', async (req, res) => {
     if(company) {
         if(req.params.role == 'dispatch' && company.isdispatcher) {
             orders = await getOrders(company.id)
-            let unassigned = orders.filter(order => order.status == 'UNASSIGNED')
-            let assigned = orders.filter(order => order.status != 'UNASSIGNED')
-            //orders = unassigned.concat(assigned)
+            unassigned = orders.filter(order => order.status == 'UNASSIGNED')
+            assigned = orders.filter(order => order.status != 'UNASSIGNED')
+            assigned.sort((a, b) => {
+                if ( a.alias < b.alias ) {
+                    return -1;
+                }
+                if ( a.alias > b.alias ) {
+                    return 1;
+                }
+                return 0;
+            })
             roster = await getRoster(company.id)
             roster = roster.map(deliv => deliv.dataValues)
             role = {
@@ -163,7 +181,7 @@ router.get('/:role/:companyid', async (req, res) => {
                 delivery: false,
                 history: false
             }
-            res.render('order', {company: company, unassigned: unassigned, assigned: assigned, role: role})
+            res.render('order', {company: company, orders: orders, assigned: assigned, unassigned: unassigned, role: role, roster: roster})
         } else if(req.params.role == 'orders' && company.isorders) {
             orders = await getOrders(company.id)
             role = {
