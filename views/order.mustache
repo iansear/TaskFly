@@ -1,11 +1,75 @@
 <html>
 <body>
     <a href="/home"><button>Home</button></a>
+
     {{#role.order}}
+
         <h1>{{company.name}} Place order</h1>
         {{>neworderForm}}
+        <h3>Current Orders</h3>
+        {{>ordersMenuHead}}
+        {{#orders}}
+            {{>ordersMenuBody}}
+        {{/orders}}
+        {{>ordersMenuFoot}}
+        {{^orders}}
+            <p>No Orders</p>
+        {{/orders}}
+
     {{/role.order}}
-    <h3>Current Orders</h3>
-    {{>ordersMenu}}
+
+    {{#role.dispatch}}
+
+        <h1>{{company.name}} Job Board</h1>
+        <h4>Unassigned Orders</h4>
+        {{>ordersMenuHead}}
+        {{#unassigned}}
+            {{>ordersMenuBody}}
+        {{/unassigned}}
+        {{>ordersMenuFoot}}
+        {{^unassigned}}
+            <p>No Orders</p>
+        {{/unassigned}}
+
+        <h4>Assigned Orders</h4>
+        {{>ordersMenuHead}}
+        {{#assigned}}
+            {{>ordersMenuBody}}
+        {{/assigned}}
+        {{>ordersMenuFoot}}
+        {{^assigned}}
+            <p>No Orders</p>
+        {{/assigned}}
+
+    {{/role.dispatch}}
+
+    {{#role.delivery}}
+
+        <h3>Manifest</h3>
+        {{>ordersMenuHead}}
+        {{#orders}}
+            {{>ordersMenuBody}}
+        {{/orders}}
+        {{>ordersMenuFoot}}
+        {{^orders}}
+            <p>No Orders</p>
+        {{/orders}}
+
+    {{/role.delivery}}
+
+    {{#role.history}}
+
+        <h3>Delivery History</h3>
+        {{>ordersMenuHead}}
+        {{#orders}}
+            {{>ordersMenuBody}}
+        {{/orders}}
+        {{>ordersMenuFoot}}
+        {{^orders}}
+            <p>No Orders</p>
+        {{/orders}}
+
+    {{/role.history}}
+
 </body>
 </html>

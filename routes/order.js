@@ -127,7 +127,8 @@ router.get('/delivery/manifest', async (req, res) => {
         role: 'delivery',
         dispatch: false,
         order: false,
-        delivery: true
+        delivery: true,
+        history: false
     }
     res.render('order', {company: company, orders: orders, role: role})
 })
@@ -139,7 +140,8 @@ router.get('/delivery/history', async (req, res) => {
         role: 'delivery',
         dispatch: false,
         order: false,
-        delivery: false
+        delivery: false,
+        history: true
     }
     res.render('order', {company: company, orders: orders, role: role})
 })
@@ -149,22 +151,27 @@ router.get('/:role/:companyid', async (req, res) => {
     if(company) {
         if(req.params.role == 'dispatch' && company.isdispatcher) {
             orders = await getOrders(company.id)
+            let unassigned = orders.filter(order => order.status == 'UNASSIGNED')
+            let assigned = orders.filter(order => order.status != 'UNASSIGNED')
+            //orders = unassigned.concat(assigned)
             roster = await getRoster(company.id)
             roster = roster.map(deliv => deliv.dataValues)
             role = {
                 role: 'dispatch',
                 dispatch: true,
                 order: false,
-                delivery: false
+                delivery: false,
+                history: false
             }
-            res.render('order', {company: company, orders: orders, role: role})
+            res.render('order', {company: company, unassigned: unassigned, assigned: assigned, role: role})
         } else if(req.params.role == 'orders' && company.isorders) {
             orders = await getOrders(company.id)
             role = {
                 role: 'orders',
                 dispatch: false,
                 order: true,
-                delivery: false
+                delivery: false,
+                history: false
             }
             res.render('order', {company: company, orders: orders, role: role})
         } else {

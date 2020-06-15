@@ -1,0 +1,15 @@
+<div>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Status</th>
+            <th>Description</th>
+            {{#role.dispatch}}
+                <th>Assigned</th>
+            {{/role.dispatch}}
+            {{#role.order}}
+                <th>Assigned</th>
+            {{/role.order}}
+            <th>POD</th>
+            <th>Company</th>
+        </tr>
