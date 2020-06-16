@@ -1,8 +1,9 @@
 const express = require('express')
 const router = express.Router()
+const MainController = require('../controllers/mainController')
 
-router.get('/', (req, res) => {
-    res.render('main')
-})
+const mainController = new MainController()
+
+router.get('/', mainController.main)
 
 module.exports = router
