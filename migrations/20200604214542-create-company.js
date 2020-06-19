@@ -16,9 +16,24 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING
       },
-      phone: {
-        allowNull: false,
+      emailpassword: {
         type: Sequelize.STRING
+      },
+      emailservice: {
+        type: Sequelize.STRING
+      },
+      useemail: {
+        allowNull: false,
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
+      },
+      phone: {
+        type: Sequelize.STRING
+      },
+      usephone: {
+        allowNull: false,
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
       },
       createdAt: {
         allowNull: false,

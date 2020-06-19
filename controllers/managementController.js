@@ -3,6 +3,7 @@ const createUser = require('../database/createuser')
 const addUser = require('../database/adduser')
 const getUserProfile = require('../database/getuserprofile')
 const updateUser = require('../database/updateuser')
+const updateCompany = require('../database/updatecompany')
 const deactivateUser = require('../database/deactivateuser')
 const getEmployees = require('../database/getemployees')
 
@@ -11,12 +12,14 @@ class ManagementController {
     constructor() {
         this.company = {}
         this.employees = []
-        this.getCompanyEmployees = this.getCompanyEmployees.bind(this)
-        this.getEmployeeInfo = this.getEmployeeInfo.bind(this)
-        this.postAddEmployee = this.postAddEmployee.bind(this)
-        this.postDeactivateEmployee = this.postDeactivateEmployee.bind(this)
-        this.postUpdateEmployee = this.postUpdateEmployee.bind(this)
         this.postNewEmployee = this.postNewEmployee.bind(this)
+        this.postAddEmployee = this.postAddEmployee.bind(this)
+        this.postUpdateEmployee = this.postUpdateEmployee.bind(this)
+        this.postUpdateCompany = this.postUpdateCompany.bind(this)
+        this.postDeactivateEmployee = this.postDeactivateEmployee.bind(this)
+        this.getEmployeeInfo = this.getEmployeeInfo.bind(this)
+        this.getCompanyEmployees = this.getCompanyEmployees.bind(this)
+        this.getCompanyInfo = this.getCompanyInfo.bind(this)
     }
 
     getDetails(employee) {
@@ -58,7 +61,7 @@ class ManagementController {
         } catch(error) {
             res.render('management', {company: this.company, employees: this.employees, newmessage: 'Username already exists.'})
         }
-        res.redirect(`/management/company/${this.company.id}`)
+        res.redirect(`/management/employee/${this.company.id}`)
     }
 
     async postAddEmployee(req, res) {
@@ -73,7 +76,7 @@ class ManagementController {
                 isdispatcher: req.body.isdispatcher ? true : false
             }
             await addUser(permissions)
-            res.redirect(`/management/company/${this.company.id}`)
+            res.redirect(`/management/employee/${this.company.id}`)
         } else {
             res.render('management', {company: this.company, employees: this.employees, addmessage: 'No user found.'})
         }
@@ -94,6 +97,36 @@ class ManagementController {
             isdispatcher: req.body.isdispatcher ? true : false
         }
         await updateUser(userid, user, usercompanyid, permissions)
+        res.redirect(`/management/employee/${this.company.id}`)
+    }
+
+    async postUpdateCompany(req, res) {
+        const emailhashword = await bcrypt.hash(req.body.emailpassword, 13)
+        const companyid = req.body.id
+        const company = {
+            email: req.body.email,
+            useemail: req.body.useemail ? true : false,
+            emailpassword: emailhashword,
+            emailservice: req.body.emailservice,
+            phone: req.body.phone,
+            usephone: req.body.usephone ? true : false
+        }
+        req.session.companies = req.session.companies.map((company) => {
+            if(company.id == companyid) {
+                return {
+                    ...this.company,
+                    email: req.body.email,
+                    useemail: req.body.useemail ? true : false,
+                    emailpassword: emailhashword,
+                    emailservice: req.body.emailservice,
+                    phone: req.body.phone,
+                    usephone: req.body.usephone ? true : false
+                }
+            } else {
+                return company
+            }
+        })
+        await updateCompany(companyid, company)
         res.redirect(`/management/company/${this.company.id}`)
     }
 
@@ -103,7 +136,7 @@ class ManagementController {
         if(isremove) {
             await deactivateUser(usercompanyid)
         }
-        res.redirect(`/management/company/${this.company.id}`)
+        res.redirect(`/management/employee/${this.company.id}`)
     }
 
     getEmployeeInfo(req, res) {
@@ -123,6 +156,19 @@ class ManagementController {
                 this.employees = this.employees.filter(employee => employee.username != req.session.user.username)
                 this.employees = this.employees.map(employee => this.getDetails(employee))
                 res.render('management', {company: this.company, employees: this.employees})
+            } else {
+                res.redirect('/home')
+            }
+        } else {
+            res.redirect('/home')
+        }
+    }
+
+    getCompanyInfo(req, res) {
+        this.company = req.session.companies.find(company => company.id == req.params.companyid)
+        if(this.company) {
+            if(this.company.isdispatcher) {
+                res.render('company', {company: this.company})
             } else {
                 res.redirect('/home')
             }

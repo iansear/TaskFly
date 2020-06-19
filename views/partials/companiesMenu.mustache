@@ -7,7 +7,8 @@
         <h2>{{name}}</h2>
         {{#isdispatcher}}
             <a href="/order/dispatch/{{id}}"><button>Dispatch Board</button></a>
-            <a href="/management/company/{{id}}"><button>Employee Management</button></a>
+            <a href="/management/employee/{{id}}"><button>Employee Management</button></a>
+            <a href="/management/company/{{id}}"><button>Company Management</button></a>
         {{/isdispatcher}}
         {{#isorders}}
             <a href="/order/orders/{{id}}"><button>Order Management</button></a>

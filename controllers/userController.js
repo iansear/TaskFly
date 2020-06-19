@@ -64,7 +64,11 @@ class UserController {
                         id: company.id,
                         name: company.name,
                         email: company.email,
+                        emailpassword: company.emailpassword,
+                        emailservice: company.emailservice,
+                        useemail: company.useemail,
                         phone: company.phone,
+                        usephone: company.usephone,
                         isdelivery: company.usercompanies.isdelivery,
                         isorders: company.usercompanies.isorders,
                         isdispatcher: company.usercompanies.isdispatcher

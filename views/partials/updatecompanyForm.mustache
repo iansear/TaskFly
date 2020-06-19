@@ -1,0 +1,80 @@
+<div>
+    <form method="POST" action="/management/updatecompany">
+        <table>
+            <tr>
+                <th>Email</th>
+                <td>{{company.email}}</td>
+                <td>
+                    <input name="email" type="email" value="{{company.email}}">
+                </td>
+            </tr>
+            <tr>
+                <th>Use Automatic Email</th>
+                <td>
+                    {{#company.useemail}}
+                        <p>Yes</p>
+                    {{/company.useemail}}
+                    {{^company.useemail}}
+                        <p>No</p>
+                    {{/company.useemail}}
+                </td>
+                <td>
+                    {{#company.useemail}}
+                        <input name="useemail" type="checkbox" checked>
+                    {{/company.useemail}}
+                    {{^company.useemail}}
+                        <input name="useemail" type="checkbox">
+                    {{/company.useemail}}
+                </td>
+            </tr>
+            <tr>
+                <th>Email Password</th>
+                <td></td>
+                <td>
+                    <input name="emailpassword" type="password">
+                </td>
+            </tr>
+            <tr>
+                <th>Email Service</th>
+                <td>{{company.emailservice}}</td>
+                <td>
+                    <input name="emailservice" type="text" value="{{company.emailservice}}" placeholder="eg. gmail">
+                </td>
+            </tr>
+            <tr>
+                <th>Phone</th>
+                <td>{{company.phone}}</td>
+                <td>
+                    <input name="phone" type="tel" value="{{company.phone}}">
+                </td>
+            </tr>
+            <tr>
+                <th>Use Automatic Text</th>
+                <td>
+                    {{#company.usephone}}
+                        <p>Yes</p>
+                    {{/company.usephone}}
+                    {{^company.usephone}}
+                        <p>No</p>
+                    {{/company.usephone}}
+                </td>
+                <td>
+                    {{#company.usephone}}
+                        <input name="usephone" type="checkbox" checked>
+                    {{/company.usephone}}
+                    {{^company.usephone}}
+                        <input name="usephone" type="checkbox">
+                    {{/company.usephone}}
+                </td>
+            </tr>
+            <tr>
+                <th></th>
+                <td></td>
+                <td>
+                    <button>Update</button>
+                </td>
+            </tr>
+        </table>
+        <input name="id" type="hidden" value="{{company.id}}">
+    </form>
+<div>
